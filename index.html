@@ -32,18 +32,20 @@
       .page {
         display: flex;
         gap: 52px;
-        align-items: flex-start;
+        align-items: stretch;
         max-width: 1400px;
         margin: 0 auto;
       }
 
       /* ── LEFT COLUMN ── */
       .page-left {
-        flex: 0 0 600px;
+        flex: 1 1 0;
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
         min-height: 600px;
+        transform: translateX(-100px);
       }
 
       .brand {
@@ -58,8 +60,11 @@
       }
 
       .device-img-wrap {
-        flex: 1;
+        flex: none;
+        width: 100%;
+        max-height: 60vh;
         margin-bottom: 28px;
+        overflow: hidden;
       }
 
       .device-img-wrap img {
@@ -104,7 +109,7 @@
       }
 
       .step {
-        padding: 20px 22px;
+        padding: 10px 12px;
         border-right: 1px solid rgba(52, 52, 52, 0.3);
         border-bottom: 1px solid rgba(52, 52, 52, 0.3);
       }
@@ -116,7 +121,7 @@
       .step-header {
         font-size: 9px;
         color: rgba(52, 52, 52, 1);
-        margin-bottom: 18px;
+        margin-bottom: 8px;
       }
 
       /* ── STEP 1 ── */
@@ -124,10 +129,10 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        padding: 10px 13px;
+        padding: 7px 10px;
         border: 1px solid rgba(52, 52, 52, 0.18);
         border-radius: 7px;
-        margin-bottom: 10px;
+        margin-bottom: 7px;
         font-size: 10px;
         color: rgba(52, 52, 52, 0.45);
       }
@@ -152,14 +157,14 @@
         background: #343434;
         color: #fff;
         text-align: center;
-        padding: 13px;
+        padding: 8px;
         border-radius: 12px;
-        font-size: 12px;
+        font-size: 11px;
         font-family: inherit;
         font-weight: 600;
         border: none;
         cursor: pointer;
-        margin-bottom: 14px;
+        margin-bottom: 8px;
       }
 
       .loading-dots {
@@ -195,7 +200,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 7px 9px;
+        padding: 4px 7px;
         border-radius: 5px;
         cursor: pointer;
       }
@@ -248,12 +253,12 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        padding: 10px 13px;
+        padding: 7px 10px;
         border: 1px solid rgba(52, 52, 52, 0.18);
         border-radius: 7px;
         font-size: 10px;
         font-weight: 500;
-        margin-bottom: 14px;
+        margin-bottom: 8px;
       }
 
       .network-arrow {
@@ -271,10 +276,10 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 10px 13px;
+        padding: 7px 10px;
         border: 1px solid rgba(52, 52, 52, 0.18);
         border-radius: 7px;
-        margin-bottom: 12px;
+        margin-bottom: 8px;
         font-size: 10px;
         color: rgba(52, 52, 52, 0.3);
       }
@@ -290,14 +295,14 @@
       }
 
       .spinner-wrap {
-        width: 36px;
-        height: 36px;
-        margin: 0 auto 14px;
+        width: 26px;
+        height: 26px;
+        margin: 0 auto 8px;
       }
 
       .spinner {
-        width: 36px;
-        height: 36px;
+        width: 26px;
+        height: 26px;
         border: 2px solid rgba(52, 52, 52, 0.12);
         border-top-color: rgba(52, 52, 52, 0.65);
         border-radius: 50%;
@@ -311,21 +316,21 @@
       }
 
       .step-big-text {
-        font-size: 16px;
+        font-size: 13px;
         font-weight: 300;
-        margin-bottom: 6px;
+        margin-bottom: 4px;
       }
 
       .step-sub {
         font-size: 10px;
         color: rgba(52, 52, 52, 0.55);
-        margin-bottom: 6px;
+        margin-bottom: 4px;
       }
 
       .step-divider {
         border: none;
         border-top: 1px solid rgba(52, 52, 52, 0.12);
-        margin: 10px 0;
+        margin: 6px 0;
       }
 
       .step-note {
@@ -336,13 +341,13 @@
       /* ── STEP 5 ── */
       .icon-circle {
         display: block;
-        margin: 0 auto 12px;
+        margin: 0 auto 6px;
       }
 
       .success-msg {
         font-size: 10px;
         color: rgba(52, 52, 52, 0.55);
-        margin-bottom: 14px;
+        margin-bottom: 8px;
       }
 
       .success-info {
@@ -354,7 +359,7 @@
         display: flex;
         justify-content: space-between;
         font-size: 10px;
-        padding: 4px 0;
+        padding: 2px 0;
       }
 
       .success-row .s-label {
@@ -368,7 +373,7 @@
       .reboot-note {
         font-size: 9px;
         color: rgba(52, 52, 52, 0.5);
-        margin-bottom: 12px;
+        margin-bottom: 6px;
         line-height: 1.5;
       }
 
@@ -380,25 +385,6 @@
         color: rgba(52, 52, 52, 0.35);
       }
 
-      /* ── STEP 7 (full width) ── */
-      .step-7 {
-        grid-column: 1 / -1;
-        border-bottom: none;
-        border-right: none;
-        padding: 0;
-        display: flex;
-      }
-
-      .step-7-left {
-        flex: 1;
-        padding: 20px 22px;
-        border-right: 1px solid rgba(52, 52, 52, 0.28);
-      }
-
-      .step-7-right {
-        flex: 1;
-        padding: 20px 22px;
-      }
 
       .fail-title {
         font-size: 16px;
@@ -430,7 +416,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        min-height: 120px;
+        min-height: 60px;
         height: 100%;
       }
 
@@ -438,6 +424,26 @@
         max-width: 100%;
         height: auto;
         display: block;
+      }
+
+      /* ── STEP 10 (full width) ── */
+      .step-10 {
+        grid-column: 1 / -1;
+        border-bottom: none;
+        border-right: none;
+        padding: 0;
+        display: flex;
+      }
+
+      .step-10-left {
+        flex: 1;
+        padding: 10px 12px;
+        border-right: 1px solid rgba(52, 52, 52, 0.28);
+      }
+
+      .step-10-right {
+        flex: 1;
+        padding: 10px 12px;
       }
 
       /* ── MOBILE ── */
@@ -480,19 +486,15 @@
           grid-template-columns: 1fr;
         }
 
-        .step:nth-child(3n) {
-          border-right: none;
-        }
-
         .step {
           border-right: none;
         }
 
-        .step-7 {
+        .step-10 {
           flex-direction: column;
         }
 
-        .step-7-left {
+        .step-10-left {
           border-right: none;
           border-bottom: 1px solid rgba(52, 52, 52, 0.13);
         }
@@ -774,14 +776,14 @@
             </div>
 
             <!-- ── STEP 10 - 若連接失敗 (full width) ── -->
-            <div class="step step-7">
-              <div class="step-7-left">
+            <div class="step step-10">
+              <div class="step-10-left">
                 <p class="step-header">Step 10 - 若連接失敗</p>
                 <div class="step-centered">
                   <svg
                     class="icon-circle"
-                    width="40"
-                    height="40"
+                    width="36"
+                    height="36"
                     viewBox="0 0 40 40"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -818,7 +820,7 @@
                   </p>
                 </div>
               </div>
-              <div class="step-7-right">
+              <div class="step-10-right">
                 <h3 class="reasons-heading">可能的原因</h3>
                 <p class="reasons-text">
                   連線逾時：裝置找到網路但無法完成連線，請靠近路由器後重試。
