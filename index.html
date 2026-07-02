@@ -1,0 +1,834 @@
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>resona : cloud — WiFi Connection Steps</title>
+    <style>
+      @font-face {
+        font-family: "Effra-Medium";
+        src: url("../fonts/effra-heavy/Effra Medium.ttf") format("truetype");
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background-color: #ede1d0;
+        color: #343434;
+        min-height: 100vh;
+        padding: 52px 60px;
+      }
+
+      /* ── PAGE LAYOUT ── */
+      .page {
+        display: flex;
+        gap: 52px;
+        align-items: flex-start;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      /* ── LEFT COLUMN ── */
+      .page-left {
+        flex: 0 0 600px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 600px;
+      }
+
+      .brand {
+        font-family: "Effra-Medium", sans-serif;
+        font-size: 64px;
+        font-weight: normal;
+        font-style: normal;
+        letter-spacing: -0.5px;
+        line-height: 1.1;
+        margin-bottom: 36px;
+        text-align: center;
+      }
+
+      .device-img-wrap {
+        flex: 1;
+        margin-bottom: 28px;
+      }
+
+      .device-img-wrap img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .tagline {
+        font-family: "Effra-Medium", sans-serif;
+        font-size: 12.5px;
+        font-style: normal;
+        font-weight: normal;
+        line-height: 1.5;
+        color: #343434;
+        text-align: center;
+      }
+
+      /* ── RIGHT COLUMN ── */
+      .page-right {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .steps-section-label {
+        font-size: 11px;
+        letter-spacing: 0.07em;
+        color: rgba(52, 52, 52, 1);
+        margin-bottom: 14px;
+      }
+
+      /* ── STEPS CONTAINER ── */
+      .steps-container {
+        border: 1px solid rgba(52, 52, 52, 1);
+        border-radius: 0;
+        overflow: hidden;
+      }
+
+      .steps-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .step {
+        padding: 20px 22px;
+        border-right: 1px solid rgba(52, 52, 52, 0.3);
+        border-bottom: 1px solid rgba(52, 52, 52, 0.3);
+      }
+
+      .step:nth-child(3n) {
+        border-right: none;
+      }
+
+      .step-header {
+        font-size: 9px;
+        color: rgba(52, 52, 52, 1);
+        margin-bottom: 18px;
+      }
+
+      /* ── STEP 1 ── */
+      .scan-status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 13px;
+        border: 1px solid rgba(52, 52, 52, 0.18);
+        border-radius: 7px;
+        margin-bottom: 10px;
+        font-size: 10px;
+        color: rgba(52, 52, 52, 0.45);
+      }
+
+      .icon-info {
+        width: 18px;
+        height: 18px;
+        border: 1px solid rgba(52, 52, 52, 0.35);
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        font-style: italic;
+        flex-shrink: 0;
+        color: rgba(52, 52, 52, 0.5);
+      }
+
+      .btn-dark {
+        display: block;
+        width: 100%;
+        background: #343434;
+        color: #fff;
+        text-align: center;
+        padding: 13px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-family: inherit;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        margin-bottom: 14px;
+      }
+
+      .loading-dots {
+        text-align: center;
+        font-size: 5px;
+        letter-spacing: 7px;
+        color: #343434;
+        margin-bottom: 10px;
+        padding-left: 7px;
+      }
+
+      .manual-link {
+        display: block;
+        text-align: center;
+        font-size: 10px;
+        color: rgba(52, 52, 52, 0.5);
+        text-decoration: underline;
+        cursor: pointer;
+        background: none;
+        border: none;
+        font-family: inherit;
+      }
+
+      /* ── STEP 2 ── */
+      .wifi-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+
+      .wifi-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 7px 9px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .wifi-item.selected {
+        background: #343434;
+        color: #fff;
+      }
+
+      .wifi-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .wifi-name {
+        font-size: 10px;
+        font-weight: 500;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .wifi-signal-label {
+        font-size: 8px;
+        opacity: 0.5;
+        display: block;
+        margin-top: 1px;
+      }
+
+      .signal-icon {
+        display: inline-flex;
+        align-items: flex-end;
+        gap: 2px;
+        height: 14px;
+        flex-shrink: 0;
+        margin-left: 8px;
+      }
+
+      .signal-bar {
+        width: 3px;
+        border-radius: 1px;
+        background: currentColor;
+      }
+
+      .signal-bar.dim {
+        opacity: 0.2;
+      }
+
+      /* ── STEP 3 ── */
+      .network-selected {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 13px;
+        border: 1px solid rgba(52, 52, 52, 0.18);
+        border-radius: 7px;
+        font-size: 10px;
+        font-weight: 500;
+        margin-bottom: 14px;
+      }
+
+      .network-arrow {
+        opacity: 0.4;
+        font-size: 9px;
+      }
+
+      .field-label {
+        font-size: 8px;
+        color: rgba(52, 52, 52, 0.4);
+        margin-bottom: 5px;
+      }
+
+      .password-field {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 13px;
+        border: 1px solid rgba(52, 52, 52, 0.18);
+        border-radius: 7px;
+        margin-bottom: 12px;
+        font-size: 10px;
+        color: rgba(52, 52, 52, 0.3);
+      }
+
+      .password-dot {
+        font-size: 9px;
+        color: rgba(52, 52, 52, 0.4);
+      }
+
+      /* ── STEP 4 & 6 (centered) ── */
+      .step-centered {
+        text-align: center;
+      }
+
+      .spinner-wrap {
+        width: 36px;
+        height: 36px;
+        margin: 0 auto 14px;
+      }
+
+      .spinner {
+        width: 36px;
+        height: 36px;
+        border: 2px solid rgba(52, 52, 52, 0.12);
+        border-top-color: rgba(52, 52, 52, 0.65);
+        border-radius: 50%;
+        animation: spin 1.3s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .step-big-text {
+        font-size: 16px;
+        font-weight: 300;
+        margin-bottom: 6px;
+      }
+
+      .step-sub {
+        font-size: 10px;
+        color: rgba(52, 52, 52, 0.55);
+        margin-bottom: 6px;
+      }
+
+      .step-divider {
+        border: none;
+        border-top: 1px solid rgba(52, 52, 52, 0.12);
+        margin: 10px 0;
+      }
+
+      .step-note {
+        font-size: 9px;
+        color: rgba(52, 52, 52, 0.42);
+      }
+
+      /* ── STEP 5 ── */
+      .icon-circle {
+        display: block;
+        margin: 0 auto 12px;
+      }
+
+      .success-msg {
+        font-size: 10px;
+        color: rgba(52, 52, 52, 0.55);
+        margin-bottom: 14px;
+      }
+
+      .success-info {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .success-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 10px;
+        padding: 4px 0;
+      }
+
+      .success-row .s-label {
+        color: rgba(52, 52, 52, 0.45);
+      }
+      .success-row .s-value {
+        font-weight: 500;
+      }
+
+      /* ── STEP 6 ── */
+      .reboot-note {
+        font-size: 9px;
+        color: rgba(52, 52, 52, 0.5);
+        margin-bottom: 12px;
+        line-height: 1.5;
+      }
+
+      .status-box {
+        border: 1px solid rgba(52, 52, 52, 0.15);
+        border-radius: 7px;
+        padding: 9px 14px;
+        font-size: 10px;
+        color: rgba(52, 52, 52, 0.35);
+      }
+
+      /* ── STEP 7 (full width) ── */
+      .step-7 {
+        grid-column: 1 / -1;
+        border-bottom: none;
+        border-right: none;
+        padding: 0;
+        display: flex;
+      }
+
+      .step-7-left {
+        flex: 1;
+        padding: 20px 22px;
+        border-right: 1px solid rgba(52, 52, 52, 0.28);
+      }
+
+      .step-7-right {
+        flex: 1;
+        padding: 20px 22px;
+      }
+
+      .fail-title {
+        font-size: 16px;
+        font-weight: 300;
+        text-align: center;
+        margin-bottom: 8px;
+      }
+
+      .fail-desc {
+        font-size: 10px;
+        color: rgba(52, 52, 52, 0.5);
+        text-align: center;
+      }
+
+      .reasons-heading {
+        font-size: 13px;
+        font-weight: 500;
+        margin-bottom: 10px;
+      }
+
+      .reasons-text {
+        font-size: 10px;
+        color: rgba(52, 52, 52, 0.6);
+        line-height: 1.7;
+        margin-bottom: 18px;
+      }
+
+      .step-img-center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 120px;
+        height: 100%;
+      }
+
+      .step-img-center img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      /* ── MOBILE ── */
+      @media (max-width: 768px) {
+        body {
+          padding: 28px 20px;
+        }
+
+        .page {
+          flex-direction: column;
+          gap: 28px;
+        }
+
+        .page-left {
+          flex: none;
+          width: 100%;
+          min-height: unset;
+          flex-direction: row;
+          align-items: center;
+          gap: 16px;
+        }
+
+        .brand {
+          font-size: 32px;
+          margin-bottom: 0;
+          text-align: left;
+          flex: 1;
+        }
+
+        .device-img-wrap {
+          flex: 0 0 80px;
+          margin-bottom: 0;
+        }
+
+        .tagline {
+          display: none;
+        }
+
+        .steps-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .step:nth-child(3n) {
+          border-right: none;
+        }
+
+        .step {
+          border-right: none;
+        }
+
+        .step-7 {
+          flex-direction: column;
+        }
+
+        .step-7-left {
+          border-right: none;
+          border-bottom: 1px solid rgba(52, 52, 52, 0.13);
+        }
+
+        .step-big-text {
+          font-size: 20px;
+        }
+
+        .fail-title {
+          font-size: 20px;
+        }
+
+        .btn-dark {
+          padding: 14px;
+          font-size: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <!-- ══════════ LEFT ══════════ -->
+      <div class="page-left">
+        <h1 class="brand">resona : cloud</h1>
+
+        <div class="device-img-wrap">
+          <img src="resona_line.png" alt="resona : cloud" />
+        </div>
+
+        <p class="tagline">the invisible whispers of the shifting climate.</p>
+      </div>
+
+      <!-- ══════════ RIGHT ══════════ -->
+      <div class="page-right">
+        <p class="steps-section-label">WiFi Connection Steps</p>
+
+        <div class="steps-container">
+          <div class="steps-grid">
+            <!-- ── STEP 1 - 插入電源 ── -->
+            <div class="step">
+              <p class="step-header">Step 1 - 插入電源</p>
+              <div class="step-img-center">
+                <img src="resona_charge.png" alt="插入電源" />
+              </div>
+            </div>
+
+            <!-- ── STEP 2 - 用行動裝置搜我 "Resona_Setup" 並連線 ── -->
+            <div class="step">
+              <p class="step-header">
+                Step 2 - 用行動裝置搜索 "Resona_Setup" 並連線或掃描 QRCODE
+                直接連線
+              </p>
+              <ul class="wifi-list">
+                <li class="wifi-item selected">
+                  <div class="wifi-info">
+                    <span class="wifi-name">Resona_Setup</span>
+                    <span class="wifi-signal-label">訊號 -58 dBm</span>
+                  </div>
+                  <span class="signal-icon">
+                    <span class="signal-bar" style="height: 4px"></span>
+                    <span class="signal-bar" style="height: 7px"></span>
+                    <span class="signal-bar" style="height: 10px"></span>
+                    <span class="signal-bar" style="height: 13px"></span>
+                  </span>
+                </li>
+                <li class="wifi-item">
+                  <div class="wifi-info">
+                    <span class="wifi-name">WHYIXD24G</span>
+                    <span class="wifi-signal-label">普通 -75 dBm</span>
+                  </div>
+                  <span class="signal-icon">
+                    <span class="signal-bar" style="height: 4px"></span>
+                    <span class="signal-bar" style="height: 7px"></span>
+                    <span class="signal-bar" style="height: 10px"></span>
+                    <span class="signal-bar dim" style="height: 13px"></span>
+                  </span>
+                </li>
+                <li class="wifi-item">
+                  <div class="wifi-info">
+                    <span class="wifi-name">coffee</span>
+                    <span class="wifi-signal-label">普通 -75 dBm</span>
+                  </div>
+                  <span class="signal-icon">
+                    <span class="signal-bar" style="height: 4px"></span>
+                    <span class="signal-bar" style="height: 7px"></span>
+                    <span class="signal-bar" style="height: 10px"></span>
+                    <span class="signal-bar dim" style="height: 13px"></span>
+                  </span>
+                </li>
+                <li class="wifi-item">
+                  <div class="wifi-info">
+                    <span class="wifi-name">mouse on the keys</span>
+                    <span class="wifi-signal-label">微弱 -78 dBm</span>
+                  </div>
+                  <span class="signal-icon">
+                    <span class="signal-bar" style="height: 4px"></span>
+                    <span class="signal-bar dim" style="height: 7px"></span>
+                    <span class="signal-bar dim" style="height: 10px"></span>
+                    <span class="signal-bar dim" style="height: 13px"></span>
+                  </span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- ── STEP 3 - 掃描裝置設定QRcode ── -->
+            <div class="step">
+              <p class="step-header">Step 3 - 掃描裝置設定QRcode</p>
+              <div class="step-img-center">
+                <img
+                  src="resona_scan.png"
+                  alt="掃描裝置QRcode"
+                  style="max-width: 50%"
+                />
+              </div>
+            </div>
+
+            <!-- ── STEP 4 - 掃描WiFi網路 ── -->
+            <div class="step">
+              <p class="step-header">Step 4 - 掃描WiFi網路</p>
+              <div class="scan-status">
+                <span class="icon-info">i</span>
+                正在掃描WiFi網路...
+              </div>
+              <button class="btn-dark">掃描WiFi網路</button>
+              <div class="loading-dots">● ● ●</div>
+              <button class="manual-link">手動輸入隱藏網路...</button>
+            </div>
+
+            <!-- ── STEP 5 - 選擇WiFi網路 ── -->
+            <div class="step">
+              <p class="step-header">Step 5 - 選擇WiFi網路</p>
+              <ul class="wifi-list">
+                <li class="wifi-item selected">
+                  <div class="wifi-info">
+                    <span class="wifi-name">WHYIXD24G</span>
+                    <span class="wifi-signal-label">訊號 -58 dBm</span>
+                  </div>
+                  <span class="signal-icon">
+                    <span class="signal-bar" style="height: 4px"></span>
+                    <span class="signal-bar" style="height: 7px"></span>
+                    <span class="signal-bar" style="height: 10px"></span>
+                    <span class="signal-bar" style="height: 13px"></span>
+                  </span>
+                </li>
+                <li class="wifi-item">
+                  <div class="wifi-info">
+                    <span class="wifi-name">chen Family 5G</span>
+                    <span class="wifi-signal-label">普通 -75 dBm</span>
+                  </div>
+                  <span class="signal-icon">
+                    <span class="signal-bar" style="height: 4px"></span>
+                    <span class="signal-bar" style="height: 7px"></span>
+                    <span class="signal-bar" style="height: 10px"></span>
+                    <span class="signal-bar dim" style="height: 13px"></span>
+                  </span>
+                </li>
+                <li class="wifi-item">
+                  <div class="wifi-info">
+                    <span class="wifi-name">coffee</span>
+                    <span class="wifi-signal-label">普通 -75 dBm</span>
+                  </div>
+                  <span class="signal-icon">
+                    <span class="signal-bar" style="height: 4px"></span>
+                    <span class="signal-bar" style="height: 7px"></span>
+                    <span class="signal-bar" style="height: 10px"></span>
+                    <span class="signal-bar dim" style="height: 13px"></span>
+                  </span>
+                </li>
+                <li class="wifi-item">
+                  <div class="wifi-info">
+                    <span class="wifi-name">mouse on the keys</span>
+                    <span class="wifi-signal-label">微弱 -78 dBm</span>
+                  </div>
+                  <span class="signal-icon">
+                    <span class="signal-bar" style="height: 4px"></span>
+                    <span class="signal-bar dim" style="height: 7px"></span>
+                    <span class="signal-bar dim" style="height: 10px"></span>
+                    <span class="signal-bar dim" style="height: 13px"></span>
+                  </span>
+                </li>
+                <li class="wifi-item">
+                  <div class="wifi-info">
+                    <span class="wifi-name">portishead</span>
+                    <span class="wifi-signal-label">普通 -75 dBm</span>
+                  </div>
+                  <span class="signal-icon">
+                    <span class="signal-bar" style="height: 4px"></span>
+                    <span class="signal-bar" style="height: 7px"></span>
+                    <span class="signal-bar" style="height: 10px"></span>
+                    <span class="signal-bar dim" style="height: 13px"></span>
+                  </span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- ── STEP 6 - 輸入密碼後連接 ── -->
+            <div class="step">
+              <p class="step-header">Step 6 - 輸入密碼後連接</p>
+              <div class="network-selected">
+                <span class="network-arrow">»</span>
+                WHYIXD24G
+              </div>
+              <p class="field-label">WiFi 密碼</p>
+              <div class="password-field">
+                <span>輸入密碼</span>
+                <span class="password-dot">●</span>
+              </div>
+              <button class="btn-dark">連接</button>
+            </div>
+
+            <!-- ── STEP 7 - 正在連接 ── -->
+            <div class="step">
+              <p class="step-header">Step 7 - 正在連接</p>
+              <div class="step-centered">
+                <div class="spinner-wrap">
+                  <div class="spinner"></div>
+                </div>
+                <p class="step-big-text">正在連接...</p>
+                <p class="step-sub">WHYIXD24G</p>
+                <hr class="step-divider" />
+                <p class="step-note">這可能需要最多20秒，請稍候</p>
+              </div>
+            </div>
+
+            <!-- ── STEP 8 - 連接成功 ── -->
+            <div class="step">
+              <p class="step-header">Step 8 - 連接成功</p>
+              <div class="step-centered">
+                <svg
+                  class="icon-circle"
+                  width="40"
+                  height="40"
+                  viewBox="0 0 40 40"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="20"
+                    cy="20"
+                    r="18.5"
+                    stroke="rgba(52,52,52,0.28)"
+                    stroke-width="1.5"
+                  />
+                  <polyline
+                    points="12,21 18,27 28,13"
+                    stroke="#343434"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    fill="none"
+                  />
+                </svg>
+                <p class="step-big-text">連接成功</p>
+                <p class="success-msg">resona已成功連接到WiFi網路</p>
+                <div class="success-info">
+                  <div class="success-row">
+                    <span class="s-label">已連接網路</span>
+                    <span class="s-value">WHYIXD24G</span>
+                  </div>
+                  <div class="success-row">
+                    <span class="s-label">裝置IP</span>
+                    <span class="s-value">192.168.1.99</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ── STEP 9 - 設備重新啟動 ── -->
+            <div class="step">
+              <p class="step-header">Step 9 - 設備重新啟動</p>
+              <div class="step-centered">
+                <div class="spinner-wrap">
+                  <div class="spinner"></div>
+                </div>
+                <p class="step-big-text">設備正在重啟...</p>
+                <p class="reboot-note">請稍候，設備即將重新連接到網路。</p>
+                <div class="status-box">正在重啟...</div>
+              </div>
+            </div>
+
+            <!-- ── STEP 10 - 若連接失敗 (full width) ── -->
+            <div class="step step-7">
+              <div class="step-7-left">
+                <p class="step-header">Step 10 - 若連接失敗</p>
+                <div class="step-centered">
+                  <svg
+                    class="icon-circle"
+                    width="40"
+                    height="40"
+                    viewBox="0 0 40 40"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="20"
+                      cy="20"
+                      r="18.5"
+                      stroke="rgba(52,52,52,0.28)"
+                      stroke-width="1.5"
+                    />
+                    <line
+                      x1="13"
+                      y1="13"
+                      x2="27"
+                      y2="27"
+                      stroke="#343434"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
+                    <line
+                      x1="27"
+                      y1="13"
+                      x2="13"
+                      y2="27"
+                      stroke="#343434"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                  <p class="fail-title">連接失敗</p>
+                  <p class="fail-desc">
+                    無法連接到「WHYIXD24G」，請確認後重試。
+                  </p>
+                </div>
+              </div>
+              <div class="step-7-right">
+                <h3 class="reasons-heading">可能的原因</h3>
+                <p class="reasons-text">
+                  連線逾時：裝置找到網路但無法完成連線，請靠近路由器後重試。
+                </p>
+                <button class="btn-dark">重新選擇網路</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
